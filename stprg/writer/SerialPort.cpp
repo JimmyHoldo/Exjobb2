@@ -1,5 +1,5 @@
 #include "SerialPort.h"
-
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 
@@ -79,7 +79,7 @@ void SerialPort::getData(char* outStr)
 
 void SerialPort::setData(char* inStr)
 {
-  strncpy(data,inStr,100);
+  strncpy(data,inStr,20);
 }
 
 SerialPort::~SerialPort()
@@ -100,19 +100,34 @@ int SerialPort::read_from_zigbee()
 {
     struct timespec ts;
     ts.tv_sec  = 0;
-    ts.tv_nsec = 250000000L;
+    ts.tv_nsec = 100000000;
 
-    int n1 = -1;
-    while(n1 == -1 || (n1 != 100)){
-        n1 = read(serial_fd, &data, 100);
-        if(n1 == -1 || (n1 != 100)) {
+    int n1 = 0;
+    char indata[20];
+    while(n1 < 1 || (n1 != 20)){
+        int n = read(serial_fd, indata, 20-n1);
+        if(n == 20){
+            strncpy(data, indata, 20);
+            return n;
+        } else if(n != -1){
+            append(n1, n, indata);
+            n1 = n1+n;
+        }
+        if(n1 < 0 || (n1 != 20)) {
             nanosleep(&ts, NULL);
         }
     }
     return n1;
 }
 
+void SerialPort::append(int i, int n, char* indata)
+{
+        for(int j=0; j<n; j++){
+            data[i+j] = indata[j];
+        }
+}
+
 int SerialPort::write_to_zigbee()
 {
-    return write(serial_fd, &data, sizeof data);
+    return write(serial_fd, &data, sizeof(data));
 }

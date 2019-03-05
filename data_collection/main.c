@@ -27,7 +27,7 @@ int runps(char *arg, char *drs, char *rss)
 
     while (fgets(path, sizeof(path)-1, fp) != NULL)
     {
-        printf("%s", path);
+       // printf("%s", path);
 
         if(test == 1)
         {
@@ -82,7 +82,7 @@ int runps2(char *arg, char *cpu, char *mem, char *vsz)
 
     while (fgets(path, sizeof(path)-1, fp) != NULL)
     {
-        printf("%s", path);
+        //printf("%s", path);
 
         if(test == 1)
         {
@@ -178,8 +178,8 @@ int main(int argc, char *argv[] )
 {
     struct timespec ts;
     ts.tv_sec  = 0;
-    ts.tv_nsec = 10000000L;
-    FILE *f = fopen("../files/pc_no_prg.txt", "w");
+    ts.tv_nsec = 10000;
+    FILE *f = fopen("../files/pc_cpp_10s.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
@@ -191,8 +191,9 @@ int main(int argc, char *argv[] )
     char cpustr[20], memstr[20], vszstr[20], drsstr[20], rssstr[20], used[20], free[20], available[20];
     if(atoi((argv)[1]) == 1)
     {
-        while(i < 10000)
+        while(i < 2000)
         {
+            //printf("Iteration %d\n", i );
             int drsint=0, rssint=0, vszint = 0;
             double cpuvalue = 0, memvalue = 0;
             for(int j=2; j<argc; j++){
@@ -205,7 +206,7 @@ int main(int argc, char *argv[] )
                 vszint += atoi(vszstr);
             }
             runfree(used, free, available);
-            fprintf(f, "%.3f\t\t%.3f\t\t%d\t\t%d\t\t%d\t\t%s\t\t%s\t\t%s\t\n", cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
+            fprintf(f, "%.6f\t\t%.6f\t\t%d\t\t%d\t\t%d\t\t%s\t\t%s\t\t%s\t\n", cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
             i++;
             nanosleep(&ts, NULL);
         }

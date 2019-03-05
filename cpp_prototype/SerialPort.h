@@ -34,8 +34,9 @@ class SerialPort
         ~SerialPort();
 
     private:
+        void append(int i, int n, char* indata);
         int serial_fd = -1;
-        char data[100];
+        char data[20];
 
 };
 

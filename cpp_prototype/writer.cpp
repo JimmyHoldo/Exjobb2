@@ -13,7 +13,7 @@ int main()
 
     while(port.getPort() == -1){
 
-        port.open_port_serial("/dev/ttyUSB1");
+        port.open_port_serial("/dev/ttyUSB0");
 
         if (port.getPort() == -1)
         printf("Error opening serial port /dev/ttyUSB1 \n");
@@ -64,7 +64,7 @@ int main()
             // Work with the results of the remote procedure call
             port.setData((char*)dbData);
             port.getData(dataStr);
-            //std::cout << dataStr << std::endl;
+            std::cout << "Witer: " << dataStr << std::endl;
 
             int n = port.write_to_zigbee();
             if(n == -1){

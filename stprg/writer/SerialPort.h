@@ -6,6 +6,16 @@
 
 #include <string>
 
+#include <sstream>
+
+#include <fcntl.h>
+#include <errno.h>
+#include <unistd.h>
+
+#include <cstddef>
+#include <cstdio>
+#include <stdio.h>
+
 class SerialPort
 {
     public:
@@ -13,6 +23,7 @@ class SerialPort
         void open_port_serial(std::string  str);
         int initport();
         int getPort();
+        void setPort(int i);
         void getData(char* outStr);
         void setData(char* inStr);
         int read_from_zigbee();
@@ -23,8 +34,9 @@ class SerialPort
         ~SerialPort();
 
     private:
+        void append(int i, int n, char* indata);
         int serial_fd = -1;
-        char data[100];
+        char data[20];
 
 };
 

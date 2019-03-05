@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     struct timespec ts;
-    ts.tv_sec  = 1;
+    ts.tv_sec  = 10;
     ts.tv_nsec = 0; //250000000L;
 
     DBusError error;
@@ -39,7 +39,7 @@ int main()
         text += std::to_string(counter % 1000);
         counter++;
         const char *str = text.c_str();
-        //std::cout << str << std::endl;
+        std::cout << str << std::endl;
         dbus_message_append_args(msg, DBUS_TYPE_STRING, &str, DBUS_TYPE_INVALID);
         if (!msg) {
             perror("Ouch.");

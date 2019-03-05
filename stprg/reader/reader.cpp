@@ -47,7 +47,7 @@ int main()
             port.getData(dataStr);
 
             fprintf(f, "%s\n", dataStr);
-            //std::cout << dataStr << std::endl;
+            std::cout << dataStr << std::endl;
             fclose(f);
         }
     }
