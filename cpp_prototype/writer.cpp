@@ -60,11 +60,11 @@ int main()
 
             const char *dbData = NULL;
             dbus_message_get_args(msg, &dbus_error, DBUS_TYPE_STRING, &dbData, DBUS_TYPE_INVALID);
-            char dataStr[100];
+            char dataStr[20];
             // Work with the results of the remote procedure call
             port.setData((char*)dbData);
             port.getData(dataStr);
-            std::cout << "Witer: " << dataStr << std::endl;
+            std::cout << "Writer: " << dataStr << std::endl;
 
             int n = port.write_to_zigbee();
             if(n == -1){

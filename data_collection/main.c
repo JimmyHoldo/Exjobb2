@@ -179,7 +179,7 @@ int main(int argc, char *argv[] )
     struct timespec ts;
     ts.tv_sec  = 0;
     ts.tv_nsec = 10000;
-    FILE *f = fopen("../files/pc_cpp_10s.txt", "w");
+    FILE *f = fopen("../files/pc_cpp_5s.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
@@ -193,7 +193,7 @@ int main(int argc, char *argv[] )
     {
         while(i < 2000)
         {
-            //printf("Iteration %d\n", i );
+            printf("Iteration %d\n", i );
             int drsint=0, rssint=0, vszint = 0;
             double cpuvalue = 0, memvalue = 0;
             for(int j=2; j<argc; j++){

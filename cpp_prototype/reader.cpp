@@ -58,7 +58,7 @@ int main()
             char dataStr[100];
             port.getData(dataStr);
             const char *str = dataStr;
-            std::cout << str << std::endl;
+            std::cout << dataStr << std::endl;
             dbus_message_append_args(msg, DBUS_TYPE_STRING, &str, DBUS_TYPE_INVALID);
             if (!msg) {
                 perror("Ouch.");
