@@ -10,9 +10,10 @@
 	<string.h>
 	<time.h>
 
-1551810105 source:/home/jimmy/Desktop/Exjobb2/data_collection/main.c
+1552148876 source:/home/jimmy/Desktop/Exjobb2/data_collection/main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
+	<unistd.h>
 
