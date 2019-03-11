@@ -34,7 +34,7 @@ int main()
 
         if(port.read_from_zigbee() > 0)
         {
-            char dataStr[12];
+            char dataStr[11];
             port.getData(dataStr);
             const char *str = (const char*)dataStr;
             std::cout  << str << std::endl;
