@@ -18,7 +18,6 @@ int main()
 
         std::string text = "1 Msg: ";
         text += std::to_string((counter % 899)+100);
-        text += "\n";
         counter++;
         const char *str = text.c_str();
         std::cout << str << std::endl;
@@ -40,7 +39,7 @@ int main()
         GOutputStream * ostream = g_io_stream_get_output_stream (G_IO_STREAM (connection));
         g_output_stream_write  (ostream,
                                 str, /* your message goes here */
-                                12, /* length of your message */
+                                strlen(str), /* length of your message */
                                 NULL,
                                 &error);
         /* don't forget to check for errors */
