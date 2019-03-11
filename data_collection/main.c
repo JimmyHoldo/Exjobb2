@@ -270,8 +270,8 @@ int proct(char *pid, char *value, char *value2)
 int cpuUsage(int argc, char *argv[], char *res2)
 {
     struct timespec ts;
-    ts.tv_sec  = 0;
-    ts.tv_nsec = 500000000;
+    ts.tv_sec  = 1;
+    ts.tv_nsec = 0;
     double utime=0, ctime=0, o_utime=0, o_ctime=0;
     char utimestr[20], ctimestr[20], o_utimestr[20], o_ctimestr[20], time[20], time2[20];
     for(int j=2; j<argc; j++){
@@ -310,7 +310,7 @@ int main(int argc, char *argv[] )
     char cpustr[20], memstr[20], vszstr[20], drsstr[20], rssstr[20], used[20], free[20], available[20], cpuproc[20];
     if(atoi((argv)[1]) == 1)
     {
-        while(i < 200)
+        while(i < 120)
         {
             printf("Iteration %d\n", i );
             int drsint=0, rssint=0, vszint = 0;
