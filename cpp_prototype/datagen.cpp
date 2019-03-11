@@ -23,12 +23,9 @@ int main()
         const char *str = text.c_str();
         std::cout << str << std::endl;
 
-        /* initialize glib */
-       //g_type_init ();
+        GError * error = NULL; /* initialize glib */
 
-       GError * error = NULL; /* initialize glib */
-
-       /* create a new connection */
+        /* create a new connection */
        GSocketConnection * connection = NULL;
        GSocketClient * client = g_socket_client_new();
 
@@ -43,7 +40,7 @@ int main()
         GOutputStream * ostream = g_io_stream_get_output_stream (G_IO_STREAM (connection));
         g_output_stream_write  (ostream,
                                 str, /* your message goes here */
-                                strlen(str), /* length of your message */
+                                12, /* length of your message */
                                 NULL,
                                 &error);
         /* don't forget to check for errors */

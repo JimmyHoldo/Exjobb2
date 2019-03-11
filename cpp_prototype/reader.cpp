@@ -34,11 +34,10 @@ int main()
 
         if(port.read_from_zigbee() > 0)
         {
-            char dataStr[20];
+            char dataStr[12];
             port.getData(dataStr);
-            std::cout << "R: " << dataStr << std::endl;
             const char *str = (const char*)dataStr;
-            std::cout << "R: " << str << std::endl;
+            std::cout  << str << std::endl;
 
             GError * error = NULL; /* initialize glib */
 

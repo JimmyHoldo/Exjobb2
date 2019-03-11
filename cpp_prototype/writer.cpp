@@ -57,7 +57,6 @@ int main()
         }
     }
 
-
     GError * error = NULL;
 
     /* create the new socketservice */
