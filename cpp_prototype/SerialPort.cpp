@@ -129,5 +129,6 @@ void SerialPort::append(int i, int n, char* indata)
 
 int SerialPort::write_to_zigbee()
 {
+    std::cout << strlen(data) << std::endl;
     return write(serial_fd, &data, strlen(data));
 }
