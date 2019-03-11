@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <cstddef>
 #include <cstdio>
-#include <dbus/dbus.h>
 #include <stdio.h>
 #include <stdlib.h>
 
