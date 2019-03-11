@@ -309,7 +309,7 @@ int main(int argc, char *argv[] )
     char cpustr[20], memstr[20], vszstr[20], drsstr[20], rssstr[20], used[20], free[20], available[20], cpuproc[20];
     if(atoi((argv)[1]) == 1)
     {
-        while(i < 10)
+        while(i < 200)
         {
             printf("Iteration %d\n", i );
             int drsint=0, rssint=0, vszint = 0;
