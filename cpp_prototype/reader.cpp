@@ -12,23 +12,25 @@ int main()
 {
     SerialPort port;
 
-    while(port.getPort() == -1){
+   while(port.getPort() == -1){
 
-        port.open_port_serial("/dev/ttyUSB0");
+       port.open_port_serial("/dev/ttyUSB1");
 
-        if (port.getPort() == -1)
-        printf("Error opening serial port /dev/ttyUSB1 \n");
-        else
-        {
-            printf("Serial Port /dev/ttyUSB1 is Open\n");
-            if (port.initport() == -1)
-            {
-                printf("Error Initializing port");
-                port.uninitialize();
-                return 0;
-            }
-        }
-    }
+       if (port.getPort() == -1)
+               printf("Error opening serial port /dev/ttyUSB2 \n");
+           else
+           {
+               printf("Serial Port /dev/ttyUSB2 is Open\n");
+               if (port.initport() == -1)
+               {
+                   printf("Error Initializing port");
+                   port.uninitialize();
+                   return 0;
+               }
+       }
+   }
+   //std::cout << port.getPort() << std::endl;
+
 
     while(1){
 

@@ -40,7 +40,7 @@ int main()
             port.getData(dataStr);
 
             std::cout << dataStr << std::endl;
-            FILE *f = fopen("../../files/test/arm_test_150ms.txt", "a");
+            FILE *f = fopen("../../files/test/2arm_test_10ms.txt", "a");
             if (f == NULL)
             {
                 printf("Error opening file!\n");
