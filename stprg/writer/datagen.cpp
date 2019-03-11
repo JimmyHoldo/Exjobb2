@@ -32,8 +32,9 @@ int main()
                                                           "test.foo2.Roll",
                                                           "Method");
 
-        std::string text = "2: ";
-        text += std::to_string(counter % 1000);
+        std::string text = "2 Msg: ";
+        text += std::to_string((counter % 899)+100);
+        text += "\n";
         counter++;
         const char *str = text.c_str();
      	  std::cout << str << std::endl;

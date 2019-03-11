@@ -24,7 +24,7 @@ gboolean incoming_callback  (GSocketService *service,
                         NULL,
                         NULL);
     //g_print("Message was: \"%s\"\n", message);
-    char dataStr[20];
+    char dataStr[12];
     sprintf(dataStr, "%s", message);
     port.setData(dataStr);
     //std::cout << "Writer: " << dataStr << std::endl;

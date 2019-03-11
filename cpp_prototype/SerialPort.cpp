@@ -72,7 +72,7 @@ int SerialPort::getPort()
 
 void SerialPort::getData(char* outStr)
 {
-  for(int i=0; i < 100; ++i){
+  for(int i=0; i < 12; ++i){
     outStr[i] = data[i];
   }
 }
@@ -103,17 +103,17 @@ int SerialPort::read_from_zigbee()
     ts.tv_nsec = 100000000;
 
     int n1 = 0;
-    char indata[20];
-    while(n1 < 1 || (n1 != 20)){
-        int n = read(serial_fd, indata, 20-n1);
-        if(n == 20){
-            strncpy(data, indata, 20);
+    char indata[12];
+    while(n1 < 1 || (n1 != 12)){
+        int n = read(serial_fd, indata, 12-n1);
+        if(n == 11){
+            strncpy(data, indata, 12);
             return n;
         } else if(n != -1){
             append(n1, n, indata);
             n1 = n1+n;
         }
-        if(n1 < 0 || (n1 != 20)) {
+        if(n1 < 0 || (n1 != 12)) {
             nanosleep(&ts, NULL);
         }
     }
@@ -129,6 +129,5 @@ void SerialPort::append(int i, int n, char* indata)
 
 int SerialPort::write_to_zigbee()
 {
-    std::cout << "Writer: " << data << std::endl;
-    return write(serial_fd, &data, 20);
+    return write(serial_fd, &data, 12);
 }
