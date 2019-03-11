@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     struct timespec ts;
-    ts.tv_sec  = 0;
+    ts.tv_sec  = 1;
     ts.tv_nsec = 1000; //250000000L;
 
     DBusError error;
