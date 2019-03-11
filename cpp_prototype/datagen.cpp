@@ -3,14 +3,15 @@
 #include <gio/gio.h>
 #include <unistd.h>
 #include <time.h>
+#include <string.h>
 
 using namespace std;
 
 int main()
 {
     struct timespec ts;
-    ts.tv_sec  = 1;
-    ts.tv_nsec = 1000; //250000000L;
+    ts.tv_sec  = 10;
+    ts.tv_nsec = 0; //250000000L;
 
     int counter = 0;
     while(1){
