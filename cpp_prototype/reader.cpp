@@ -8,8 +8,6 @@
 #include <glib.h>
 #include <gio/gio.h>
 
-
-
 int main()
 {
     SerialPort port;
@@ -38,8 +36,9 @@ int main()
         {
             char dataStr[20];
             port.getData(dataStr);
-            const char *str = dataStr;
-            std::cout << dataStr << std::endl;
+            std::cout << "R: " << dataStr << std::endl;
+            const char *str = (const char*)dataStr;
+            std::cout << "R: " << str << std::endl;
 
             GError * error = NULL; /* initialize glib */
 
@@ -54,7 +53,7 @@ int main()
                                                           NULL,
                                                           &error);
              /* use the connection */
-             //GInputStream * istream = g_io_stream_get_input_stream (G_IO_STREAM (connection));
+             GInputStream * istream = g_io_stream_get_input_stream (G_IO_STREAM (connection));
              GOutputStream * ostream = g_io_stream_get_output_stream (G_IO_STREAM (connection));
              g_output_stream_write  (ostream,
                                      str, /* your message goes here */

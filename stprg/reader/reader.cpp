@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <dbus/dbus.h>
 #include <stdio.h>
-
+#include <stdlib.h>
 
 int main()
 {
@@ -37,17 +37,19 @@ int main()
 
         if(port.read_from_zigbee() > 0)
         {
-            FILE *f = fopen("arm_test_10s.txt", "w");
+            char dataStr[20];
+            port.getData(dataStr);
+
+            std::cout << dataStr << std::endl;
+            FILE *f = fopen("../../files/test/arm_test_10s.txt", "a");
             if (f == NULL)
             {
                 printf("Error opening file!\n");
                 exit(1);
             }
-            char dataStr[100];
-            port.getData(dataStr);
+
 
             fprintf(f, "%s\n", dataStr);
-            std::cout << dataStr << std::endl;
             fclose(f);
         }
     }
