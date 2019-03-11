@@ -79,7 +79,7 @@ void SerialPort::getData(char* outStr)
 
 void SerialPort::setData(char* inStr)
 {
-  strncpy(data,inStr,20);
+  strncpy(data,inStr,strlen(inStr));
 }
 
 SerialPort::~SerialPort()
@@ -129,5 +129,6 @@ void SerialPort::append(int i, int n, char* indata)
 
 int SerialPort::write_to_zigbee()
 {
+    std::cout << "Writer: " << data << std::endl;
     return write(serial_fd, &data, 20);
 }

@@ -1,5 +1,6 @@
 #include <iostream>
-#include <dbus/dbus.h>
+#include <glib.h>
+#include <gio/gio.h>
 #include <unistd.h>
 #include <time.h>
 
@@ -8,52 +9,50 @@ using namespace std;
 int main()
 {
     struct timespec ts;
-    ts.tv_sec  = 0;
+    ts.tv_sec  = 1;
     ts.tv_nsec = 1000; //250000000L;
-
-    DBusError error;
-    dbus_error_init(&error);
-
-    DBusConnection *connection = dbus_bus_get(DBUS_BUS_SESSION, &error);
-    if (!connection || dbus_error_is_set(&error)) {
-        perror("Connection error.");
-        exit(1);
-    }
-
-    const int ret = dbus_bus_request_name(connection, "test.foo.caller2", DBUS_NAME_FLAG_REPLACE_EXISTING, &error);
-    if (ret != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER || dbus_error_is_set(&error)) {
-        perror("Ouch.");
-        exit(1);
-    }
 
     int counter = 0;
     while(1){
 
-
-        DBusMessage *const msg = dbus_message_new_method_call("test.foo.bar",
-								"/test/foo/Object",
-								"test.foo.Roll",
-								"Method");
-
-        std::string text = "1: ";
-        text += std::to_string(counter % 1000);
+        std::string text = "1 Msg: ";
+        text += std::to_string((counter % 899)+100);
+        text += "\0";
         counter++;
         const char *str = text.c_str();
         std::cout << str << std::endl;
-        dbus_message_append_args(msg, DBUS_TYPE_STRING, &str, DBUS_TYPE_INVALID);
-        if (!msg) {
-            perror("Ouch.");
-            exit(1);
+
+        /* initialize glib */
+       //g_type_init ();
+
+       GError * error = NULL; /* initialize glib */
+
+       /* create a new connection */
+       GSocketConnection * connection = NULL;
+       GSocketClient * client = g_socket_client_new();
+
+       /* connect to the host */
+       connection = g_socket_client_connect_to_host (client,
+                                                    (gchar*)"localhost",
+                                                     1500, /* your port goes here */
+                                                     NULL,
+                                                     &error);
+        /* use the connection */
+        //GInputStream * istream = g_io_stream_get_input_stream (G_IO_STREAM (connection));
+        GOutputStream * ostream = g_io_stream_get_output_stream (G_IO_STREAM (connection));
+        g_output_stream_write  (ostream,
+                                str, /* your message goes here */
+                                strlen(str), /* length of your message */
+                                NULL,
+                                &error);
+        /* don't forget to check for errors */
+        if (error != NULL)
+        {
+            g_error (error->message);
         }
 
-        dbus_uint32_t serial = dbus_message_get_serial(msg);
-        dbus_connection_send(connection, msg, &serial);
-        dbus_connection_flush(connection);
-        dbus_message_unref(msg);
         nanosleep(&ts, NULL);
     }
-
-    dbus_connection_unref(connection);
 
     cout << "Hello world!" << endl;
     return 0;

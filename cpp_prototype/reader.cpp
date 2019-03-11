@@ -5,7 +5,8 @@
 #include <unistd.h>
 #include <cstddef>
 #include <cstdio>
-#include <dbus/dbus.h>
+#include <glib.h>
+#include <gio/gio.h>
 
 
 
@@ -30,49 +31,42 @@ int main()
             }
         }
     }
-    //port.setPort(3);
-    DBusError error;
-    dbus_error_init(&error);
-
-    DBusConnection *connection = dbus_bus_get(DBUS_BUS_SESSION, &error);
-    if (!connection || dbus_error_is_set(&error)) {
-        perror("Connection error.");
-        exit(1);
-    }
-
-    const int ret = dbus_bus_request_name(connection, "test.foo.caller", DBUS_NAME_FLAG_ALLOW_REPLACEMENT, &error);
-    if (ret != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER || dbus_error_is_set(&error)) {
-        perror("Ouch.");
-        exit(1);
-    }
 
     while(1){
 
         if(port.read_from_zigbee() > 0)
         {
-            DBusMessage *const msg = dbus_message_new_method_call("test.foo.bar",
-                                                                "/test/foo/Object",
-                                                                "test.foo.Roll",
-                                                                "Method");
-
-            char dataStr[100];
+            char dataStr[20];
             port.getData(dataStr);
             const char *str = dataStr;
             std::cout << dataStr << std::endl;
-            dbus_message_append_args(msg, DBUS_TYPE_STRING, &str, DBUS_TYPE_INVALID);
-            if (!msg) {
-                perror("Ouch.");
-                exit(1);
-            }
 
-            dbus_uint32_t serial = dbus_message_get_serial(msg);
-            dbus_connection_send(connection, msg, &serial);
-            dbus_connection_flush(connection);
-            dbus_message_unref(msg);
+            GError * error = NULL; /* initialize glib */
+
+            /* create a new connection */
+            GSocketConnection * connection = NULL;
+            GSocketClient * client = g_socket_client_new();
+
+            /* connect to the host */
+            connection = g_socket_client_connect_to_host (client,
+                                                         (gchar*)"localhost",
+                                                          1500, /* your port goes here */
+                                                          NULL,
+                                                          &error);
+             /* use the connection */
+             //GInputStream * istream = g_io_stream_get_input_stream (G_IO_STREAM (connection));
+             GOutputStream * ostream = g_io_stream_get_output_stream (G_IO_STREAM (connection));
+             g_output_stream_write  (ostream,
+                                     str, /* your message goes here */
+                                     strlen(str), /* length of your message */
+                                     NULL,
+                                     &error);
+             /* don't forget to check for errors */
+             if (error != NULL)
+             {
+                 g_error (error->message);
+             }
         }
     }
-
-    dbus_connection_unref(connection);
-
     return 0;
 }
