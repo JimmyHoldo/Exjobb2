@@ -23,11 +23,10 @@ gboolean incoming_callback  (GSocketService *service,
                         1024,
                         NULL,
                         NULL);
-    //g_print("Message was: \"%s\"\n", message);
     char dataStr[12];
     sprintf(dataStr, "%s", message);
     port.setData(dataStr);
-    //std::cout << "Writer: " << dataStr << std::endl;
+    std::cout << "Writer: " << dataStr << std::endl;
 
     int n = port.write_to_zigbee();
     if(n == -1){
@@ -42,7 +41,7 @@ int main()
 
     while(port.getPort() == -1){
 
-        port.open_port_serial("/dev/ttyUSB1");
+        port.open_port_serial("/dev/ttyUSB0");
 
         if (port.getPort() == -1)
         printf("Error opening serial port /dev/ttyUSB1 \n");

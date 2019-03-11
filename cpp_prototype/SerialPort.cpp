@@ -79,7 +79,7 @@ void SerialPort::getData(char* outStr)
 
 void SerialPort::setData(char* inStr)
 {
-  strncpy(data,inStr,strlen(inStr));
+    strncpy(data,inStr,strlen(inStr));
 }
 
 SerialPort::~SerialPort()
