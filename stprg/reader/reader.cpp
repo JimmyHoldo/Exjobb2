@@ -37,7 +37,7 @@ int main()
 
         if(port.read_from_zigbee() > 0)
         {
-            FILE *f = fopen("test.txt", "w");
+            FILE *f = fopen("arm_test_10s.txt", "w");
             if (f == NULL)
             {
                 printf("Error opening file!\n");

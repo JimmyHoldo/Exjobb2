@@ -266,7 +266,7 @@ int proct(char *pid, char *value, char *value2)
     return 0;
 }
 
-int cpuUsage(int argc, char *argv[], double *res2)
+int cpuUsage(int argc, char *argv[], char *res2)
 {
     struct timespec ts;
     ts.tv_sec  = 0;
@@ -288,7 +288,7 @@ int cpuUsage(int argc, char *argv[], double *res2)
     }
     uptime(time2);
     double res = ((utime - o_utime)+(ctime - o_ctime) / (atof(time2)-atof(time)));
-    sprintf(res2, "%f", res);
+    sprintf(res2, "%lf", res);
     return 0;
 }
 
