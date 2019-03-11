@@ -20,7 +20,7 @@ int main()
         exit(1);
     }
 
-    const int ret = dbus_bus_request_name(connection, "test.foo.caller2", DBUS_NAME_FLAG_ALLOW_REPLACEMENT, &error);
+    const int ret = dbus_bus_request_name(connection, "test.foo.caller2", DBUS_NAME_FLAG_REPLACE_EXISTING, &error);
     if (ret != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER || dbus_error_is_set(&error)) {
         perror("Ouch.");
         exit(1);
@@ -31,9 +31,9 @@ int main()
 
 
         DBusMessage *const msg = dbus_message_new_method_call("test.foo.bar",
-        "/test/foo/Object",
-        "test.foo.Roll",
-        "Method");
+								"/test/foo/Object",
+								"test.foo.Roll",
+								"Method");
 
         std::string text = "1: ";
         text += std::to_string(counter % 1000);
