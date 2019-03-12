@@ -30,10 +30,10 @@ int main()
        }
    }
 
-
+   std::cout << "Reading...." << std::endl;
 
     while(1){
-
+        std::cout << "Reading...." << std::endl;
         if(port.read_from_zigbee() > 0)
         {
             std::cout << "Reading...." << std::endl;
