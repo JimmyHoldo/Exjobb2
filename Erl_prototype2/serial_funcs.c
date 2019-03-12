@@ -102,7 +102,7 @@ int read_from_zigbee(int serial_fd, char *content){
 
 int write_to_zigbee(int serial_fd, char *content)
 {
-    int n = write(serial_fd, content, strlen(content));
+    int n = write(serial_fd, content, 10);
     if (n < 0)
     {
       printf("write() of %ld bytes failed!\n",sizeof(*content));
