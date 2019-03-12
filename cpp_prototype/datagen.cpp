@@ -11,7 +11,7 @@ int main()
 {
     struct timespec ts;
     ts.tv_sec  = 0;
-    ts.tv_nsec = 500000000; //250000000L;
+    ts.tv_nsec = 350000000; //250000000L;
 
     int counter = 0;
     while(1){
