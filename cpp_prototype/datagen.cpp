@@ -10,8 +10,8 @@ using namespace std;
 int main()
 {
     struct timespec ts;
-    ts.tv_sec  = 1;
-    ts.tv_nsec = 0; //250000000L;
+    ts.tv_sec  = 0;
+    ts.tv_nsec = 750000000; //250000000L;
 
     int counter = 0;
     while(1){
