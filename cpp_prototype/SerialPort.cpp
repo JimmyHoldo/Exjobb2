@@ -106,7 +106,6 @@ int SerialPort::read_from_zigbee()
     char indata[11];
     while(n1 < 1 || (n1 != 10)){
         int n = read(serial_fd, indata, 10-n1);
-        std::cout << n << std::endl;
         if(n == 10){
             strncpy(data, indata, 10);
             return n;
@@ -130,6 +129,5 @@ void SerialPort::append(int i, int n, char* indata)
 
 int SerialPort::write_to_zigbee()
 {
-    std::cout << strlen(data) << std::endl;
     return write(serial_fd, &data, strlen(data));
 }
