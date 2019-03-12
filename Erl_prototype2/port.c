@@ -26,7 +26,7 @@ int main() {
       buf[0] = res;
       write_cmd(buf, 1);
     }else if (fn == 3) {
-      char content[100];
+      char content[11];
       res = read_from_zigbee(arg, content);
       //buf[0] = res;
       for (int i = 0; i < strlen(content); i++){

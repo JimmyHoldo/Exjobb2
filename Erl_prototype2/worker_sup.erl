@@ -27,4 +27,4 @@ init([Arg, ExtPrg, Time]) ->
 % c(worker_sup). c(subworker_sup). c(writer). c(reader). c(datagen).
 % worker_sup:start_link("/dev/ttyUSB1", "readerwriterprg")
 
-% c(worker_sup). c(subworker_sup). c(writer). c(reader). c(datagen). c(serialport). worker_sup:start_link("/dev/ttyUSB2", "readerwriterprg").
+% c(worker_sup). c(subworker_sup). c(writer). c(reader). c(datagen). c(serialport). worker_sup:start_link("/dev/ttyUSB0", "readerwriterprg", 1000).

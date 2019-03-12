@@ -70,27 +70,39 @@ int open_port_serial(char *str)
     return fd;
 }
 
-int read_from_zigbee(int serial_fd, char (*content)){
-    struct timespec ts;
-    ts.tv_sec = 250 / 1000;
-    ts.tv_nsec = (250 % 1000) * 1000000;
-    int n1 = -1;
-
-    while (n1 < 1) {
-      n1 = read(serial_fd, content, 100);
-      nanosleep(&ts, NULL);
-    }
-
-    if (n1 < 0)
-    {
-        return 0;
-    }
-    return 1;
+void append(int i, int n, char* content, char* indata)
+{
+        for(int j=0; j<n; j++){
+            content[i+j] = indata[j];
+        }
 }
 
-int write_to_zigbee(int serial_fd, char (*content)[100]){
+int read_from_zigbee(int serial_fd, char *content){
+    struct timespec ts;
+    ts.tv_sec  = 0;
+    ts.tv_nsec = 100000000;
 
-    int n = write(serial_fd, content, sizeof(*content));
+    int n1 = 0;
+    char indata[11];
+    while(n1 < 1 || (n1 != 10)){
+        int n = read(serial_fd, indata, 10-n1);
+        if(n == 10){
+            strncpy(content, indata, 10);
+            return n;
+        } else if(n != -1){
+            append(n1, n, content, indata);
+            n1 = n1+n;
+        }
+        if(n1 < 0 || (n1 != 10)) {
+            nanosleep(&ts, NULL);
+        }
+    }
+    return n1;
+}
+
+int write_to_zigbee(int serial_fd, char *content)
+{
+    int n = write(serial_fd, content, strlen(content));
     if (n < 0)
     {
       printf("write() of %ld bytes failed!\n",sizeof(*content));

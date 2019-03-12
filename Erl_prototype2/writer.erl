@@ -17,7 +17,7 @@ init(Arg, ExtPrg) ->
 loop(PortWriter, Serial_fd) ->
   receive
 		{msgToWriter, Msg} ->
-            %io:format("Message received: ~s~n", [Msg]),
+            io:format("Message received: ~s~n", [Msg]),
 			serialport:write_to_zigbee(PortWriter, [Serial_fd, Msg, 0])
   end,
   loop(PortWriter, Serial_fd).
