@@ -40,7 +40,7 @@ int SerialPort::initport()
     options.c_cflag &= ~CSTOPB;
     options.c_cflag &= ~CSIZE;
     options.c_cflag |= CS8;
-    options.c_cflag |= SerialDataBitsInterp(8);     /* CS8 - Selects 8 data bits */
+    //options.c_cflag |= SerialDataBitsInterp(8);     /* CS8 - Selects 8 data bits */
     options.c_cflag &= ~CRTSCTS;                      // Disable hardware flow control
     options.c_iflag &= ~(IXON | IXOFF | IXANY);       // Disable XON XOFF (for transmit and receive)
     //options.c_cflag |= CRTSCTS;                     /* Enable hardware flow control */
