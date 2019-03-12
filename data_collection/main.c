@@ -298,7 +298,7 @@ int main(int argc, char *argv[] )
     struct timespec ts;
     ts.tv_sec  = 0;
     ts.tv_nsec = 10000;
-    FILE *f = fopen("../files/arm_cpp_750ms.txt", "w");
+    FILE *f = fopen("../files/arm_cpp_500ms.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
