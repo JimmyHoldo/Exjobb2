@@ -40,7 +40,7 @@ int SerialPort::initport()
     options.c_cflag &= ~CSTOPB;
     options.c_cflag &= ~CSIZE;
     options.c_cflag |= CS8;
-    //options.c_cflag |= SerialDataBitsInterp(8);     /* CS8 - Selects 8 data bits */
+    options.c_cflag |= SerialDataBitsInterp(8);     /* CS8 - Selects 8 data bits */
     options.c_cflag &= ~CRTSCTS;                      // Disable hardware flow control
     options.c_iflag &= ~(IXON | IXOFF | IXANY);       // Disable XON XOFF (for transmit and receive)
     //options.c_cflag |= CRTSCTS;                     /* Enable hardware flow control */
@@ -106,6 +106,7 @@ int SerialPort::read_from_zigbee()
     char indata[11];
     while(n1 < 1 || (n1 != 10)){
         int n = read(serial_fd, indata, 10-n1);
+        std::cout << n << std::endl;
         if(n == 10){
             strncpy(data, indata, 10);
             return n;

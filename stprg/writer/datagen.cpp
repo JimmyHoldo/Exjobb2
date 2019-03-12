@@ -10,7 +10,7 @@ using namespace std;
 int main()
 {
     struct timespec ts;
-    ts.tv_sec  = 10;
+    ts.tv_sec  = 5;
     ts.tv_nsec = 0; //250000000L;
 
     int counter = 0;

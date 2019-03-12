@@ -298,13 +298,13 @@ int main(int argc, char *argv[] )
     struct timespec ts;
     ts.tv_sec  = 0;
     ts.tv_nsec = 10000;
-    FILE *f = fopen("../files/arm_cpp_10s.txt", "w");
+    FILE *f = fopen("../files/arm_cpp_5s.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
         exit(1);
     }
-    fprintf(f, "CPUProc\t\t\tCPU\t\t\tMEM\t\t\tVSZ\t\tDRS\t\tRSS\t\tUSED\t\tFREE\t\tAVAILABLE\t\n");
+    fprintf(f, "CPUProc\t\t\t\tCPU\t\t\t\tMEM\t\t\t\tVSZ\t\tDRS\t\tRSS\t\tUSED\t\tFREE\t\tAVAILABLE\t\n");
 
     int i = 0;
     char cpustr[20], memstr[20], vszstr[20], drsstr[20], rssstr[20], used[20], free[20], available[20], cpuproc[20];
@@ -312,7 +312,7 @@ int main(int argc, char *argv[] )
     {
         while(i < 120)
         {
-            printf("Iteration %d\n", i );
+            printf("Iterration %d\n", i );
             int drsint=0, rssint=0, vszint = 0;
             double cpuvalue = 0, memvalue = 0;
             for(int j=2; j<argc; j++){
@@ -328,7 +328,7 @@ int main(int argc, char *argv[] )
 
             cpuUsage(argc, argv, cpuproc);
 
-            fprintf(f, "%.3f\t\t\t%.3f\t\t\t%.3f\t\t\t%d\t\t%d\t\t%d\t\t%s\t\t%s\t\t%s\t\n", atof(cpuproc),cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
+            fprintf(f, "%.3f\t\t\t\t%.3f\t\t\t\t%.3f\t\t\t\t%d\t\t%d\t\t%d\t\t%s\t\t%s\t\t%s\t\n", atof(cpuproc),cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
             i++;
             //nanosleep(&ts, NULL);
         }
