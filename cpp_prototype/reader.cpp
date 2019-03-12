@@ -14,7 +14,7 @@ int main()
 
    while(port.getPort() == -1){
 
-       port.open_port_serial("/dev/ttyUSB1");
+       port.open_port_serial("/dev/ttyUSB0");
 
        if (port.getPort() == -1)
                printf("Error opening serial port /dev/ttyUSB2 \n");
@@ -29,13 +29,14 @@ int main()
                }
        }
    }
-   //std::cout << port.getPort() << std::endl;
+
 
 
     while(1){
 
         if(port.read_from_zigbee() > 0)
         {
+            std::cout << "Reading...." << std::endl;
             char dataStr[11];
             port.getData(dataStr);
             const char *str = (const char*)dataStr;
