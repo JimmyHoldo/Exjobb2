@@ -298,7 +298,7 @@ int main(int argc, char *argv[] )
     struct timespec ts;
     ts.tv_sec  = 0;
     ts.tv_nsec = 10000;
-    FILE *f = fopen("../files/arm_erl_5s.txt", "w");
+    FILE *f = fopen("../files/arm_erl_2s.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
