@@ -296,8 +296,8 @@ int cpuUsage(int argc, char *argv[], char *res2)
 int main(int argc, char *argv[] )
 {
     struct timespec ts;
-    ts.tv_sec  = 0;
-    ts.tv_nsec = 10000;
+    ts.tv_sec  = 1;
+    ts.tv_nsec = 0;
     char filename[50];
     sprintf(filename, "../files/arm_%s.txt", argv[2]);
     FILE *f = fopen(filename, "w");
@@ -337,7 +337,7 @@ int main(int argc, char *argv[] )
     }
     else
     {
-        while(i < 10000)
+        while(i < 120)
         {
             runfree(used, free, available);
             char s[10] = "     ";
