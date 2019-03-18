@@ -5,6 +5,10 @@
  grep sum_exec_runtime /proc/15858/sched
 
 
+./datagen sec ms
+./reader filename (stprg)
+./data_collection typeOfTest filename [pids]
+
 1309 (VBoxClient) S 1308 1307 1307 0 -1 1077936192 131 0 5 0 8449 11449 0 0 20 0 3 0 5153 130662400 731 18446744073709551615 94342970515456 94342971531644 140726113921280 0 0 0 8192 0 96775 0 0 0 17 0 0 0 0 0 0 94342973631232 94342973719288 94342985879552 140726113930039 140726113930073 140726113930073 140726113931236 0
 
 
@@ -32,4 +36,3 @@ mm->numa_scan_seq                            :                    0
 numa_pages_migrated                          :                    0
 numa_preferred_nid                           :                   -1
 total_numa_faults                            :                    0
-

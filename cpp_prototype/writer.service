@@ -1,0 +1,13 @@
+[Unit]
+Description=writer service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=user
+ExecStart=/usr/bin/env bash /writer
+
+[Install]
+WantedBy=multi-user.target

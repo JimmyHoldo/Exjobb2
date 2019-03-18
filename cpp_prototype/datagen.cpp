@@ -7,11 +7,11 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
     struct timespec ts;
-    ts.tv_sec  = 0;
-    ts.tv_nsec = 150000000; //250000000L;
+    ts.tv_sec  = atoi(argv[1]);
+    ts.tv_nsec = atoi(argv[2])*1000*1000; //250000000L;
 
     int counter = 0;
     while(1){
@@ -50,7 +50,5 @@ int main()
 
         nanosleep(&ts, NULL);
     }
-
-    cout << "Hello world!" << endl;
     return 0;
 }

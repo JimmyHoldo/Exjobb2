@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SerialPort.h"
+#include "../../cpp_serial/SerialPort.h"
 #include <unistd.h>
 #include <glib.h>
 #include <gio/gio.h>
@@ -30,7 +30,7 @@ gboolean incoming_callback  (GSocketService *service,
 
     int n = port.write_to_zigbee();
     if(n == -1){
-      std::cout << "Could not write" << std::endl;
+      std::cout << "Could not write!" << std::endl;
     }
     return FALSE;
 }

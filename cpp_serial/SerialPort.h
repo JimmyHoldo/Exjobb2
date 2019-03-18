@@ -22,6 +22,7 @@ class SerialPort
 
         void open_port_serial(std::string  str);
         int initport();
+        int setBlocking(int should_block);
         int getPort();
         void setPort(int i);
         void getData(char* outStr);

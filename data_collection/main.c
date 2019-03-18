@@ -298,7 +298,9 @@ int main(int argc, char *argv[] )
     struct timespec ts;
     ts.tv_sec  = 0;
     ts.tv_nsec = 10000;
-    FILE *f = fopen("../files/arm_erl_150ms.txt", "w");
+    char filename[50];
+    sprintf(filename, "../files/arm_%s.txt", argv[2]);
+    FILE *f = fopen(filename, "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
@@ -315,7 +317,7 @@ int main(int argc, char *argv[] )
             printf("Iterration %d\n", i );
             int drsint=0, rssint=0, vszint = 0;
             double cpuvalue = 0, memvalue = 0;
-            for(int j=2; j<argc; j++){
+            for(int j=3; j<argc; j++){
                 runps(argv[j], drsstr, rssstr);
                 runps2(argv[j], cpustr, memstr, vszstr);
                 drsint += atoi(drsstr);
@@ -338,7 +340,8 @@ int main(int argc, char *argv[] )
         while(i < 10000)
         {
             runfree(used, free, available);
-            fprintf(f, "%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\n", "", "", "", "", "", "", used, free, available);
+            char s[10] = "     ";
+            fprintf(f, "%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\n", s, s, s, s, s, s, used, free, available);
             i++;
             nanosleep(&ts, NULL);
         }

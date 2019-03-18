@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SerialPort.h"
+#include "../cpp_serial/SerialPort.h"
 
 #include <string.h>
 #include <unistd.h>
@@ -16,27 +16,25 @@ int main()
 
        port.open_port_serial("/dev/ttyUSB0");
 
-       if (port.getPort() == -1)
-               printf("Error opening serial port /dev/ttyUSB2 \n");
-           else
+       if (port.getPort() == -1){
+           printf("Error opening serial port /dev/ttyUSB2 \n");
+       }
+       else
+       {
+           printf("Serial Port /dev/ttyUSB2 is Open\n");
+           if (port.initport() == -1)
            {
-               printf("Serial Port /dev/ttyUSB2 is Open\n");
-               if (port.initport() == -1)
-               {
-                   printf("Error Initializing port");
-                   port.uninitialize();
-                   return 0;
-               }
+               printf("Error Initializing port");
+               port.uninitialize();
+               return 0;
+           }
        }
    }
 
-   std::cout << "Reading...." << std::endl;
-
     while(1){
-        std::cout << "Reading...." << std::endl;
+
         if(port.read_from_zigbee() > 0)
         {
-            std::cout << "Reading...." << std::endl;
             char dataStr[11];
             port.getData(dataStr);
             const char *str = (const char*)dataStr;

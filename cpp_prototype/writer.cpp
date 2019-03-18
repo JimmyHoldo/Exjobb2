@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SerialPort.h"
+#include "../cpp_serial/SerialPort.h"
 #include <unistd.h>
 #include <glib.h>
 #include <gio/gio.h>
@@ -30,21 +30,20 @@ gboolean incoming_callback  (GSocketService *service,
 
     int n = port.write_to_zigbee();
     if(n == -1){
-      std::cout << "Could not write" << std::endl;
+      std::cout << "Could not write!" << std::endl;
     }
     return FALSE;
 }
 
 int main()
 {
-
-
     while(port.getPort() == -1){
 
         port.open_port_serial("/dev/ttyUSB0");
 
-        if (port.getPort() == -1)
-        printf("Error opening serial port /dev/ttyUSB1 \n");
+        if (port.getPort() == -1){
+            printf("Error opening serial port /dev/ttyUSB1 \n");
+        }
         else
         {
             printf("Serial Port /dev/ttyUSB1 is Open\n");

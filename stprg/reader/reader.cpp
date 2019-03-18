@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SerialPort.h"
+#include "../../cpp_serial/SerialPort.h"
 
 #include <string.h>
 #include <unistd.h>
@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+int main(int argc, char *argv[])
 {
     SerialPort port;
 
@@ -40,7 +40,9 @@ int main()
             port.getData(dataStr);
 
             std::cout << dataStr << std::endl;
-            FILE *f = fopen("../../files/test/arm_erltest_150ms.txt", "a");
+            char filename[50];
+            sprintf(filename, "../../files/test/arm_%s.txt", argv[1]);
+            FILE *f = fopen(filename, "a");
             if (f == NULL)
             {
                 printf("Error opening file!\n");

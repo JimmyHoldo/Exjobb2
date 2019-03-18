@@ -43,7 +43,7 @@ int initport(int fd)
     //options.c_cflag |= CRTSCTS;                     /* Enable hardware flow control */
 
     options.c_cc[VMIN] = 1;   //Minimum characters to be read
-    options.c_cc[VTIME] = 100;    //Time to wait for data (tenths of seconds)
+    options.c_cc[VTIME] = 2;    //Time to wait for data (tenths of seconds)
     options.c_oflag &=~OPOST;
     options.c_iflag &=~(ICANON | ECHO | ECHOE | ISIG);
     // Set the new options for the port...
@@ -77,6 +77,23 @@ void append(int i, int n, char* content, char* indata)
         }
 }
 
+void set_blocking (int fd, int should_block)
+{
+        struct termios tty;
+        memset (&tty, 0, sizeof tty);
+        if (tcgetattr (fd, &tty) != 0)
+        {
+                printf("error %d from tggetattr\n", errno);
+                return;
+        }
+
+        tty.c_cc[VMIN]  = should_block ? 1 : 0;
+        tty.c_cc[VTIME] = 10;            // 1 seconds read timeout
+
+        if (tcsetattr (fd, TCSANOW, &tty) != 0)
+                printf("error %d setting term attributes\n", errno);
+}
+
 int read_from_zigbee(int serial_fd, char *content){
     struct timespec ts;
     ts.tv_sec  = 0;
@@ -85,7 +102,9 @@ int read_from_zigbee(int serial_fd, char *content){
     int n1 = 0;
     char indata[11];
     while(n1 < 1 || (n1 != 10)){
+        set_blocking(serial_fd, 1);
         int n = read(serial_fd, indata, 10-n1);
+        set_blocking(serial_fd, 0);
         if(n == 10){
             strncpy(content, indata, 10);
             return n;

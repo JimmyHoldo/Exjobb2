@@ -65,6 +65,22 @@ int SerialPort::initport()
     return (portstatus);
 }
 
+int SerialPort::setBlocking(int should_block)
+{
+    struct termios tty;
+        memset (&tty, 0, sizeof tty);
+        if (tcgetattr (serial_fd, &tty) != 0)
+        {
+            printf("error %d from tggetattr\n", errno);
+        }
+
+        tty.c_cc[VMIN]  = should_block ? 1 : 0;
+        tty.c_cc[VTIME] = 10;            // 1 seconds read timeout
+
+        if (tcsetattr (serial_fd, TCSANOW, &tty) != 0)
+                printf("error %d setting term attributes\n", errno);
+}
+
 int SerialPort::getPort()
 {
     return serial_fd;
@@ -105,7 +121,9 @@ int SerialPort::read_from_zigbee()
     int n1 = 0;
     char indata[11];
     while(n1 < 1 || (n1 != 10)){
+        setBlocking(1);
         int n = read(serial_fd, indata, 10-n1);
+        setBlocking(0);
         if(n == 10){
             strncpy(data, indata, 10);
             return n;
