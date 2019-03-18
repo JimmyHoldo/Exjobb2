@@ -274,7 +274,7 @@ int cpuUsage(int argc, char *argv[], char *res2)
     ts.tv_nsec = 0;
     double utime=0, ctime=0, o_utime=0, o_ctime=0;
     char utimestr[20], ctimestr[20], o_utimestr[20], o_ctimestr[20], time[20], time2[20];
-    for(int j=2; j<argc; j++){
+    for(int j=3; j<argc; j++){
         proct(argv[j], o_utimestr, o_ctimestr);
         o_utime += atof(o_utimestr);
         o_ctime += atof(o_ctimestr);
@@ -282,7 +282,7 @@ int cpuUsage(int argc, char *argv[], char *res2)
     uptime(time);
     nanosleep(&ts, NULL);
 
-    for(int j=2; j<argc; j++){
+    for(int j=3; j<argc; j++){
         proct(argv[j], utimestr, ctimestr);
         utime += atof(utimestr);
         ctime += atof(ctimestr);
