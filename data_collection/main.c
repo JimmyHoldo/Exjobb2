@@ -470,7 +470,7 @@ int main(int argc, char *argv[] )
                 }
                 fclose(f2);
                 char command3[100];
-                sprintf(command3, "cd ../Erl_prototype2; erl -eval \"application:start(app)\"");
+                sprintf(command3, "cd ../Erl_prototype2; erl -noshell -eval \"application:start(app)\" +P 1024 +Q 1024 +Mea min +L");
                 FILE *p4 = popen(command3, "r");
                 nanosleep(&ts, NULL);
                 char erts[20], child[20], readerwriter1[20], readerwriter2[20];
