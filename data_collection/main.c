@@ -401,7 +401,7 @@ int main(int argc, char *argv[] )
 
                 char *idsP[] = {writerId, readerId, datagenId};
 
-                while(i < 20)
+                while(i < 120)
                 {
                     printf("Iterration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
@@ -481,7 +481,7 @@ int main(int argc, char *argv[] )
 
                 char *idsP2[] = {erts, child, readerwriter1, readerwriter2};
                 i = 0;
-                while(i < 20)
+                while(i < 120)
                 {
                     printf("Iterration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
