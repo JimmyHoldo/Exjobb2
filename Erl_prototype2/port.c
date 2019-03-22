@@ -38,6 +38,9 @@ int main() {
       char *ps = buf;
       ps++;
       ps++;
+      char sendStr[10];
+      strncpy(sendStr, ps, 9);
+      sendStr[10] = "\n";
       res = write_to_zigbee(arg, ps);
       buf[0] = res;
       write_cmd(buf, 1);

@@ -9,6 +9,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+    std::cout << "DataGen started" << std::endl;
     struct timespec ts;
     ts.tv_sec  = atoi(argv[1]);
     ts.tv_nsec = atoi(argv[2])*1000*1000; //250000000L;
@@ -16,8 +17,8 @@ int main(int argc, char *argv[])
     int counter = 0;
     while(1){
 
-        std::string text = "1 Msg: ";
-        text += std::to_string((counter % 899)+100);
+        std::string text = "1 Msg:";
+        text += std::to_string((counter % 899)+100) + "\n";
         counter++;
         const char *str = text.c_str();
         std::cout << str << std::endl;

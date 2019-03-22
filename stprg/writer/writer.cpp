@@ -41,7 +41,7 @@ int main()
 
     while(port.getPort() == -1){
 
-        port.open_port_serial("/dev/ttyUSB0");
+        port.open_port_serial("/dev/ttyUSB1");
 
         if (port.getPort() == -1)
         printf("Error opening serial port /dev/ttyUSB1 \n");

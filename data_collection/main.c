@@ -274,7 +274,7 @@ int cpuUsage(int argc, char *argv[], char *res2)
     ts.tv_nsec = 0;
     double utime=0, ctime=0, o_utime=0, o_ctime=0;
     char utimestr[20], ctimestr[20], o_utimestr[20], o_ctimestr[20], time[20], time2[20];
-    for(int j=3; j<argc; j++){
+    for(int j=0; j<argc; j++){
         proct(argv[j], o_utimestr, o_ctimestr);
         o_utime += atof(o_utimestr);
         o_ctime += atof(o_ctimestr);
@@ -282,7 +282,7 @@ int cpuUsage(int argc, char *argv[], char *res2)
     uptime(time);
     nanosleep(&ts, NULL);
 
-    for(int j=3; j<argc; j++){
+    for(int j=0; j<argc; j++){
         proct(argv[j], utimestr, ctimestr);
         utime += atof(utimestr);
         ctime += atof(ctimestr);
@@ -293,50 +293,239 @@ int cpuUsage(int argc, char *argv[], char *res2)
     return 0;
 }
 
+void fetchIds(char *writerId, char *readerId, char *datagenId)
+{
+    char path1[1035],path2[1035],path3[1035];
+
+    FILE *p1 = popen("ps -A | grep writer", "r");
+    fgets(path1, sizeof(path1)-1, p1);
+    const char *ptr = strtok( path1, " " );
+    strcpy(writerId, ptr);
+
+    FILE *p2 = popen("ps -A | grep reader", "r");
+    fgets(path2, sizeof(path2)-1, p2);
+    const char *ptr2 = strtok( path2, " " );
+    strcpy(readerId, ptr2);
+
+    FILE *p3 = popen("ps -A | grep datagen", "r");
+    fgets(path3, sizeof(path3)-1, p3);
+    const char *ptr3 = strtok( path3, " " );
+    strcpy(datagenId, ptr3);
+
+    pclose(p1);
+    pclose(p2);
+    pclose(p3);
+}
+
+void fetchIdsErl(char *erts, char *child, char *readerwriter1, char *readerwriter2)
+{
+    char path1[1035],path2[1035],path3[1035];
+
+    FILE *p1 = popen("ps x | grep bin/beam", "r");
+    fgets(path1, sizeof(path1)-1, p1);
+    printf("%s", path1);
+    //strtok( path1, " " );
+    const char *ptr = strtok( path1, " " );
+    strcpy(erts, ptr);
+
+    FILE *p2 = popen("ps -A | grep child", "r");
+    fgets(path2, sizeof(path2)-1, p2);
+    const char *ptr2 = strtok( path2, " " );
+    strcpy(child, ptr2);
+
+    FILE *p3 = popen("ps -A | grep readerwriterprg", "r");
+    fgets(path3, sizeof(path3)-1, p3);
+    printf("%s", path3);
+    const char *ptr3 = strtok( path3, " " );
+    strcpy(readerwriter1, ptr3);
+    fgets(path3, sizeof(path3)-1, p3);
+    printf("%s", path3);
+    const char *ptr4 = strtok( path3, " " );
+    strcpy(readerwriter2, ptr4);
+
+    pclose(p1);
+    pclose(p2);
+    pclose(p3);
+}
+
 int main(int argc, char *argv[] )
 {
     struct timespec ts;
-    ts.tv_sec  = 1;
-    ts.tv_nsec = 0;
+    ts.tv_sec  = 5;
+    ts.tv_nsec = 100;
+
     char filename[50];
-    sprintf(filename, "../files/arm_%s.txt", argv[2]);
-    FILE *f = fopen(filename, "w");
-    if (f == NULL)
-    {
-        printf("Error opening file!\n");
-        exit(1);
-    }
-    fprintf(f, "CPUProc\t\t\tCPU  \t\t\tMEM  \t\t\tVSZ  \t\tDRS  \t\tRSS  \t\tUSED  \t\tFREE  \t\tAVAILABLE\t\n");
 
     int i = 0;
     char cpustr[20], memstr[20], vszstr[20], drsstr[20], rssstr[20], used[20], free[20], available[20], cpuproc[20];
     if(atoi((argv)[1]) == 1)
     {
-        while(i < 120)
+        char *fileArr[] = {"10s", "5s","2s","1s","750ms","500ms","350ms","250ms","200ms","175ms","150ms"};
+        int timeSArr[] = {10, 5,2,1,0,0,0,0,0,0,0};
+        int timeMsArr[] = {0,0,0,0,750,500,350,250,200,175,150};
+
+        int timeErlMsArr[] = {10000,5000,2000,1000,750,500,350,250,200,175,150};
+
+        for(int x=0; x<11; x++)
         {
-            printf("Iterration %d\n", i );
-            int drsint=0, rssint=0, vszint = 0;
-            double cpuvalue = 0, memvalue = 0;
-            for(int j=3; j<argc; j++){
-                runps(argv[j], drsstr, rssstr);
-                runps2(argv[j], cpustr, memstr, vszstr);
-                drsint += atoi(drsstr);
-                rssint += atoi(rssstr);
-                cpuvalue += atof(cpustr);
-                memvalue += atof(memstr);
-                vszint += atoi(vszstr);
+            printf("Iterration x=%d\n", x );
+            for(int y=0; y<10; y++)
+            {
+                i=0;
+                sprintf(filename, "../files/%darm_cpp_%s.txt", y, fileArr[x]);
+                FILE *f = fopen(filename, "w");
+                if (f == NULL)
+                {
+                    printf("Error opening file!\n");
+                    exit(1);
+                }
+                fprintf(f, "CPUProc\t\t\tCPU  \t\t\tMEM  \t\t\tVSZ  \t\tDRS  \t\tRSS  \t\tUSED  \t\tFREE  \t\tAVAILABLE\t\n");
+                fclose(f);
+                FILE *p1 = popen("cd ../cpp_prototype; ./writer; ", "r");
+                nanosleep(&ts, NULL);
+                FILE *p2 = popen("cd ../cpp_prototype; ./reader", "r");
+
+                char command2[100];
+                sprintf(command2, "cd ../cpp_prototype; ./datagen %d %d", timeSArr[x], timeMsArr[x]);
+                FILE *p3 = popen(command2, "r");
+
+                char writerId[20], readerId[20], datagenId[20];
+                fetchIds(writerId, readerId, datagenId);
+
+                char *idsP[] = {writerId, readerId, datagenId};
+
+                while(i < 20)
+                {
+                    printf("Iterration %d\n", i );
+                    int drsint=0, rssint=0, vszint = 0;
+                    double cpuvalue = 0, memvalue = 0;
+                    for(int j=0; j<3; j++){
+                        runps(idsP[j], drsstr, rssstr);
+                        runps2(idsP[j], cpustr, memstr, vszstr);
+                        drsint += atoi(drsstr);
+                        rssint += atoi(rssstr);
+                        cpuvalue += atof(cpustr);
+                        memvalue += atof(memstr);
+                        vszint += atoi(vszstr);
+                    }
+                    runfree(used, free, available);
+
+                    cpuUsage(3, idsP, cpuproc);
+                    FILE *ff = fopen(filename, "a");
+                    if (ff == NULL)
+                    {
+                        printf("Error opening file!\n");
+                        exit(1);
+                    }
+                    fprintf(ff, "%.3f  \t\t\t%.3f\t\t\t%.3f\t\t\t%d  \t\t%d  \t\t%d  \t\t%s  \t\t%s  \t\t%s\t\n", atof(cpuproc),cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
+                    fclose(f);
+                    i++;
+                    //nanosleep(&ts, NULL);
+                }
+                char command[100];
+                sprintf(command, "kill %s", datagenId);
+                FILE *p11 = popen(command, "r");
+                nanosleep(&ts, NULL);
+                sprintf(command, "kill %s", readerId);
+                FILE *p21 = popen(command, "r");
+                sprintf(command, "kill %s", writerId);
+                FILE *p31 = popen(command, "r");
+
+                pclose(p1);
+                pclose(p2);
+                pclose(p3);
+                pclose(p11);
+                pclose(p21);
+                pclose(p31);
+
+
+
+
+                sprintf(filename, "../files/%darm_erl_%s.txt", y, fileArr[x]);
+
+
+                char appFile[300];
+                sprintf(appFile, "{application, app, [{vsn, \"1.0.0\"}, {modules, [app, worker_sup, subworker_sup, writer, reader, datagen, serialport]}, {register, [app]}, {mod, {app, [%d]}}]}.", timeErlMsArr[x]);
+                char filename3[30];
+                sprintf(filename3, "../Erl_prototype2/app.app");
+                FILE *f3 = fopen(filename3, "w");
+                if (f3 == NULL)
+                {
+                    printf("Error opening file!\n");
+                    exit(1);
+                }
+                fprintf(f3, "%s", appFile);
+                fclose(f3);
+                FILE *f2 = fopen(filename, "w");
+                fprintf(f2, "CPUProc\t\t\tCPU  \t\t\tMEM  \t\t\tVSZ  \t\tDRS  \t\tRSS  \t\tUSED  \t\tFREE  \t\tAVAILABLE\t\n");
+
+                if (f2 == NULL)
+                {
+                    printf("Error opening file!\n");
+                    exit(1);
+                }
+                fclose(f2);
+                char command3[100];
+                sprintf(command3, "cd ../Erl_prototype2; erl -eval \"application:start(app)\"");
+                FILE *p4 = popen(command3, "r");
+                nanosleep(&ts, NULL);
+                char erts[20], child[20], readerwriter1[20], readerwriter2[20];
+                fetchIdsErl(erts, child, readerwriter1, readerwriter2);
+
+                char *idsP2[] = {erts, child, readerwriter1, readerwriter2};
+                i = 0;
+                while(i < 20)
+                {
+                    printf("Iterration %d\n", i );
+                    int drsint=0, rssint=0, vszint = 0;
+                    double cpuvalue = 0, memvalue = 0;
+                    for(int j=0; j<4; j++){
+                        runps(idsP2[j], drsstr, rssstr);
+                        runps2(idsP2[j], cpustr, memstr, vszstr);
+                        drsint += atoi(drsstr);
+                        rssint += atoi(rssstr);
+                        cpuvalue += atof(cpustr);
+                        memvalue += atof(memstr);
+                        vszint += atoi(vszstr);
+                    }
+                    runfree(used, free, available);
+                    printf("Iterration2 %d\n", i );
+                    cpuUsage(4, idsP2, cpuproc);
+                    FILE *f3 = fopen(filename, "a");
+                    fprintf(f3, "%.3f  \t\t\t%.3f\t\t\t%.3f\t\t\t%d  \t\t%d  \t\t%d  \t\t%s  \t\t%s  \t\t%s\t\n", atof(cpuproc),cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
+                    fclose(f3);
+                    i++;
+                    //nanosleep(&ts, NULL);
+                }
+
+                sprintf(command, "kill %s", erts);
+                FILE *p41 = popen(command, "r");
+                sprintf(command, "kill %s", child);
+                FILE *p42 = popen(command, "r");
+                sprintf(command, "kill %s", readerwriter1);
+                FILE *p43 = popen(command, "r");
+                sprintf(command, "kill %s", readerwriter2);
+                FILE *p44 = popen(command, "r");
+
+                pclose(p4);
+                pclose(p41);
+                pclose(p42);
+                pclose(p43);
+                pclose(p44);
             }
-            runfree(used, free, available);
-
-            cpuUsage(argc, argv, cpuproc);
-
-            fprintf(f, "%.3f  \t\t\t%.3f\t\t\t%.3f\t\t\t%d  \t\t%d  \t\t%d  \t\t%s  \t\t%s  \t\t%s\t\n", atof(cpuproc),cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
-            i++;
-            //nanosleep(&ts, NULL);
         }
     }
     else
     {
+        sprintf(filename, "../files/arm_%s.txt", "no_prg");
+        FILE *f = fopen(filename, "w");
+        fprintf(f, "CPUProc\t\t\tCPU  \t\t\tMEM  \t\t\tVSZ  \t\tDRS  \t\tRSS  \t\tUSED  \t\tFREE  \t\tAVAILABLE\t\n");
+
+        if (f == NULL)
+        {
+            printf("Error opening file!\n");
+            exit(1);
+        }
         while(i < 120)
         {
             runfree(used, free, available);
@@ -345,9 +534,8 @@ int main(int argc, char *argv[] )
             i++;
             nanosleep(&ts, NULL);
         }
+        fclose(f);
     }
-
-    fclose(f);
     printf("File is created\n");
     return 0;
 }

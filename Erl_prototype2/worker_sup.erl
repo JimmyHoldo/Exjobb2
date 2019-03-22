@@ -1,8 +1,11 @@
 -module(worker_sup).
 -behaviour(supervisor).
 
--export([start_link/3]).
+-export([start_link/3, start/1]).
 -export([init/1]).
+
+start(Time) ->
+    start_link("/dev/ttyUSB0", "readerwriterprg", Time).
 
 start_link(Arg, ExtPrg, Time) ->
   supervisor:start_link({local,?MODULE}, ?MODULE, [Arg, ExtPrg, Time]).
@@ -28,3 +31,4 @@ init([Arg, ExtPrg, Time]) ->
 % worker_sup:start_link("/dev/ttyUSB1", "readerwriterprg")
 
 % c(worker_sup). c(subworker_sup). c(writer). c(reader). c(datagen). c(serialport). worker_sup:start_link("/dev/ttyUSB0", "readerwriterprg", 1000).
+% c(worker_sup). c(subworker_sup). c(writer). c(reader). c(datagen). c(serialport). worker_sup:start(1000).
