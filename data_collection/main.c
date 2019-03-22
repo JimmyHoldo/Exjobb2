@@ -299,21 +299,21 @@ void fetchIds(char *writerId, char *readerId, char *datagenId)
 
     FILE *p1 = popen("ps -A | grep writer", "r");
     fgets(path1, sizeof(path1)-1, p1);
-    printf("%s", path1);
     const char *ptr = strtok( path1, " " );
     strcpy(writerId, ptr);
+    printf("%s writerId\n", writerId);
 
     FILE *p2 = popen("ps -A | grep reader", "r");
     fgets(path2, sizeof(path2)-1, p2);
-    printf("%s", path2);
     const char *ptr2 = strtok( path2, " " );
     strcpy(readerId, ptr2);
+    printf("%s readerId\n", readerId);
 
     FILE *p3 = popen("ps -A | grep datagen", "r");
     fgets(path3, sizeof(path3)-1, p3);
-    printf("%s", path3);
     const char *ptr3 = strtok( path3, " " );
     strcpy(datagenId, ptr3);
+    printf("%s datagenId\n", datagenId);
 
     pclose(p1);
     pclose(p2);
@@ -330,25 +330,25 @@ void fetchIdsErl(char *erts, char *child, char *readerwriter1, char *readerwrite
     //strtok( path1, " " );
     const char *ptr = strtok( path1, " " );
     strcpy(erts, ptr);
-    printf("%s\n", erts);
+    printf("%s erts\n", erts);
 
     FILE *p2 = popen("ps x | grep erl_child", "r");
     fgets(path2, sizeof(path2)-1, p2);
     const char *ptr2 = strtok( path2, " " );
     strcpy(child, ptr2);
-    printf("%s\n", child);
+    printf("%s erl_child\n", child);
 
     FILE *p3 = popen("ps x | grep readerwriterprg", "r");
     fgets(path3, sizeof(path3)-1, p3);
     //printf("%s", path3);
     const char *ptr3 = strtok( path3, " " );
     strcpy(readerwriter1, ptr3);
-    printf("%s\n", readerwriter1);
+    printf("%s readerwriter1\n", readerwriter1);
     fgets(path3, sizeof(path3)-1, p3);
     //printf("%s", path3);
     const char *ptr4 = strtok( path3, " " );
     strcpy(readerwriter2, ptr4);
-    printf("%s\n", readerwriter2);
+    printf("%s readerwriter2\n", readerwriter2);
 
     pclose(p1);
     pclose(p2);
@@ -391,12 +391,12 @@ int main(int argc, char *argv[] )
                 }
                 fprintf(f, "CPUProc\t\t\tCPU  \t\t\tMEM  \t\t\tVSZ  \t\tDRS  \t\tRSS  \t\tUSED  \t\tFREE  \t\tAVAILABLE\t\n");
                 fclose(f);
-                FILE *p1 = popen("cd ../cpp_prototype; ./writer; ", "r");
+                FILE *p1 = popen("./../cpp_prototype/writer; ", "r");
                 nanosleep(&ts, NULL);
-                FILE *p2 = popen("cd ../cpp_prototype; ./reader", "r");
+                FILE *p2 = popen("./../cpp_prototype/reader", "r");
 
                 char command2[100];
-                sprintf(command2, "cd ../cpp_prototype; ./datagen %d %d", timeSArr[y], timeMsArr[y]);
+                sprintf(command2, "./../cpp_prototype/datagen %d %d", timeSArr[y], timeMsArr[y]);
                 FILE *p3 = popen(command2, "r");
 
                 char writerId[20], readerId[20], datagenId[20];
@@ -404,9 +404,9 @@ int main(int argc, char *argv[] )
 
                 char *idsP[] = {writerId, readerId, datagenId};
 
-                while(i < 100)
+                while(i < 120)
                 {
-                    printf("Iterration %d\n", i );
+                    printf("cppIterration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
                     double cpuvalue = 0, memvalue = 0;
                     for(int j=0; j<3; j++){
@@ -430,23 +430,17 @@ int main(int argc, char *argv[] )
                     fprintf(ff, "%.3f  \t\t\t%.3f\t\t\t%.3f\t\t\t%d  \t\t%d  \t\t%d  \t\t%s  \t\t%s  \t\t%s\t\n", atof(cpuproc),cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
                     fclose(ff);
                     i++;
-                    //nanosleep(&ts, NULL);
                 }
-                char command[100];
-                sprintf(command, "kill %s", datagenId);
-                FILE *p11 = popen(command, "r");
-                nanosleep(&ts, NULL);
-                sprintf(command, "kill %s", readerId);
-                FILE *p21 = popen(command, "r");
-                sprintf(command, "kill %s", writerId);
-                FILE *p31 = popen(command, "r");
+                FILE *p11 = popen("pkill -f datagen", "r");
+                pclose(p11);
+                FILE *p21 = popen("pkill -f reader", "r");
+                pclose(p21);
+                FILE *p31 = popen("pkill -f writer", "r");
+                pclose(p31);
 
                 pclose(p1);
                 pclose(p2);
                 pclose(p3);
-                pclose(p11);
-                pclose(p21);
-                pclose(p31);
 
 
 
@@ -484,9 +478,9 @@ int main(int argc, char *argv[] )
 
                 char *idsP2[] = {erts, child, readerwriter1, readerwriter2};
                 i = 0;
-                while(i < 100)
+                while(i < 120)
                 {
-                    printf("Iterration %d\n", i );
+                    printf("erllIterration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
                     double cpuvalue = 0, memvalue = 0;
                     for(int j=0; j<4; j++){
@@ -506,7 +500,7 @@ int main(int argc, char *argv[] )
                     i++;
                     //nanosleep(&ts, NULL);
                 }
-
+                char command[20];
                 sprintf(command, "kill %s", erts);
                 FILE *p41 = popen(command, "r");
                 sprintf(command, "kill %s", child);
@@ -522,6 +516,8 @@ int main(int argc, char *argv[] )
                 pclose(p43);
                 pclose(p44);
             }
+            FILE *pp = popen("./../clientserver/client", "r");
+            pclose(pp);
         }
     }
     else
