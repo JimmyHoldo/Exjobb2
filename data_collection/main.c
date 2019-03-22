@@ -381,6 +381,9 @@ int main(int argc, char *argv[] )
             printf("Iterration x=%d\n", x );
             for(int y=0; y<13; y++)
             {
+                FILE *pp = popen("./../clientserver/client", "r");
+                pclose(pp);
+                
                 i=0;
                 sprintf(filename, "../files/%darm_cpp_%s.txt", x, fileArr[y]);
                 FILE *f = fopen(filename, "w");
@@ -516,8 +519,6 @@ int main(int argc, char *argv[] )
                 pclose(p43);
                 pclose(p44);
             }
-            FILE *pp = popen("./../clientserver/client", "r");
-            pclose(pp);
         }
     }
     else
