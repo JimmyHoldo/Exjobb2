@@ -5,7 +5,7 @@
 -export([init/1]).
 
 start(Time) ->
-    start_link("/dev/ttyUSB0", "readerwriterprg", Time).
+    start_link("/dev/ttyUSB1", "readerwriterprg", Time).
 
 start_link(Arg, ExtPrg, Time) ->
   supervisor:start_link({local,?MODULE}, ?MODULE, [Arg, ExtPrg, Time]).

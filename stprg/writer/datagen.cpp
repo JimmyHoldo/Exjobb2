@@ -17,8 +17,7 @@ int main(int argc, char *argv[])
     while(1){
 
         std::string text = "2 Msg:";
-        text += std::to_string((counter % 899)+100);
-	    text += "\n";
+        text += std::to_string((counter % 899)+100) + "\n";
         counter++;
         const char *str = text.c_str();
         std::cout << str << std::endl;

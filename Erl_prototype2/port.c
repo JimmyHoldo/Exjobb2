@@ -36,12 +36,13 @@ int main() {
       write_cmd(buf, strlen(content));
     }else if (fn == 4) {
       char *ps = buf;
-      ps++;
-      ps++;
-      char sendStr[10];
-      strncpy(sendStr, ps, 9);
-      sendStr[10] = "\n";
-      res = write_to_zigbee(arg, ps);
+      char sendStr[11];
+      char tempdata[9];
+      for(int i=0; i<10; i++){
+          tempdata[i] = ps[i+2];
+      }
+      sprintf(sendStr, "%s%s", tempdata, "\n");
+      res = write_to_zigbee(arg, sendStr);
       buf[0] = res;
       write_cmd(buf, 1);
     }
