@@ -331,13 +331,13 @@ void fetchIdsErl(char *erts, char *child, char *readerwriter1, char *readerwrite
     const char *ptr = strtok( path1, " " );
     strcpy(erts, ptr);
 
-    FILE *p2 = popen("ps -A | grep child", "r");
+    FILE *p2 = popen("ps aux | grep erl_child", "r");
     fgets(path2, sizeof(path2)-1, p2);
     printf("%s", path3);
     const char *ptr2 = strtok( path2, " " );
     strcpy(child, ptr2);
 
-    FILE *p3 = popen("ps -A | grep readerwriterprg", "r");
+    FILE *p3 = popen("ps aux | grep readerwriterprg", "r");
     fgets(path3, sizeof(path3)-1, p3);
     printf("%s", path3);
     const char *ptr3 = strtok( path3, " " );
