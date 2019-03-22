@@ -353,6 +353,9 @@ int main(int argc, char *argv[] )
     struct timespec ts;
     ts.tv_sec  = 5;
     ts.tv_nsec = 100;
+    struct timespec ts2;
+    ts2.tv_sec  = 1;
+    ts2.tv_nsec = 0;
 
     char filename[50];
 
@@ -518,6 +521,7 @@ int main(int argc, char *argv[] )
     else
     {
         sprintf(filename, "../files/arm_%s.txt", "no_prg");
+        printf("No prg\n");
         FILE *f = fopen(filename, "w");
         fprintf(f, "CPUProc\t\t\tCPU  \t\t\tMEM  \t\t\tVSZ  \t\tDRS  \t\tRSS  \t\tUSED  \t\tFREE  \t\tAVAILABLE\t\n");
 
@@ -528,11 +532,12 @@ int main(int argc, char *argv[] )
         }
         while(i < 120)
         {
+            printf("Iterration: %d\n", i);
             runfree(used, free, available);
             char s[10] = "     ";
             fprintf(f, "%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\n", s, s, s, s, s, s, used, free, available);
             i++;
-            nanosleep(&ts, NULL);
+            nanosleep(&ts2, NULL);
         }
         fclose(f);
     }
