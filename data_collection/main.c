@@ -333,6 +333,7 @@ void fetchIdsErl(char *erts, char *child, char *readerwriter1, char *readerwrite
 
     FILE *p2 = popen("ps -A | grep child", "r");
     fgets(path2, sizeof(path2)-1, p2);
+    printf("%s", path3);
     const char *ptr2 = strtok( path2, " " );
     strcpy(child, ptr2);
 
@@ -372,13 +373,13 @@ int main(int argc, char *argv[] )
 
         int timeErlMsArr[] = {10000,5000,2000,1000,750,500,350,250,200,175,150};
 
-        for(int x=0; x<11; x++)
+        for(int x=0; x<10; x++)
         {
             printf("Iterration x=%d\n", x );
-            for(int y=0; y<10; y++)
+            for(int y=0; y<11; y++)
             {
                 i=0;
-                sprintf(filename, "../files/%darm_cpp_%s.txt", y, fileArr[x]);
+                sprintf(filename, "../files/%darm_cpp_%s.txt", x, fileArr[y]);
                 FILE *f = fopen(filename, "w");
                 if (f == NULL)
                 {
@@ -392,7 +393,7 @@ int main(int argc, char *argv[] )
                 FILE *p2 = popen("cd ../cpp_prototype; ./reader", "r");
 
                 char command2[100];
-                sprintf(command2, "cd ../cpp_prototype; ./datagen %d %d", timeSArr[x], timeMsArr[x]);
+                sprintf(command2, "cd ../cpp_prototype; ./datagen %d %d", timeSArr[y], timeMsArr[y]);
                 FILE *p3 = popen(command2, "r");
 
                 char writerId[20], readerId[20], datagenId[20];
@@ -424,7 +425,7 @@ int main(int argc, char *argv[] )
                         exit(1);
                     }
                     fprintf(ff, "%.3f  \t\t\t%.3f\t\t\t%.3f\t\t\t%d  \t\t%d  \t\t%d  \t\t%s  \t\t%s  \t\t%s\t\n", atof(cpuproc),cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
-                    fclose(f);
+                    fclose(ff);
                     i++;
                     //nanosleep(&ts, NULL);
                 }
@@ -447,11 +448,11 @@ int main(int argc, char *argv[] )
 
 
 
-                sprintf(filename, "../files/%darm_erl_%s.txt", y, fileArr[x]);
+                sprintf(filename, "../files/%darm_erl_%s.txt", x, fileArr[y]);
 
 
                 char appFile[300];
-                sprintf(appFile, "{application, app, [{vsn, \"1.0.0\"}, {modules, [app, worker_sup, subworker_sup, writer, reader, datagen, serialport]}, {register, [app]}, {mod, {app, [%d]}}]}.", timeErlMsArr[x]);
+                sprintf(appFile, "{application, app, [{vsn, \"1.0.0\"}, {modules, [app, worker_sup, subworker_sup, writer, reader, datagen, serialport]}, {register, [app]}, {mod, {app, [%d]}}]}.", timeErlMsArr[y]);
                 char filename3[30];
                 sprintf(filename3, "../Erl_prototype2/app.app");
                 FILE *f3 = fopen(filename3, "w");
@@ -495,7 +496,6 @@ int main(int argc, char *argv[] )
                         vszint += atoi(vszstr);
                     }
                     runfree(used, free, available);
-                    printf("Iterration2 %d\n", i );
                     cpuUsage(4, idsP2, cpuproc);
                     FILE *f3 = fopen(filename, "a");
                     fprintf(f3, "%.3f  \t\t\t%.3f\t\t\t%.3f\t\t\t%d  \t\t%d  \t\t%d  \t\t%s  \t\t%s  \t\t%s\t\n", atof(cpuproc),cpuvalue, memvalue, vszint, drsint, rssint, used, free, available);
