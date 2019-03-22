@@ -299,16 +299,19 @@ void fetchIds(char *writerId, char *readerId, char *datagenId)
 
     FILE *p1 = popen("ps -A | grep writer", "r");
     fgets(path1, sizeof(path1)-1, p1);
+    printf("%s", path1);
     const char *ptr = strtok( path1, " " );
     strcpy(writerId, ptr);
 
     FILE *p2 = popen("ps -A | grep reader", "r");
     fgets(path2, sizeof(path2)-1, p2);
+    printf("%s", path2);
     const char *ptr2 = strtok( path2, " " );
     strcpy(readerId, ptr2);
 
     FILE *p3 = popen("ps -A | grep datagen", "r");
     fgets(path3, sizeof(path3)-1, p3);
+    printf("%s", path3);
     const char *ptr3 = strtok( path3, " " );
     strcpy(datagenId, ptr3);
 
