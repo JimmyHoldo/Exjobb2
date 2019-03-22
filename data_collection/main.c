@@ -326,26 +326,29 @@ void fetchIdsErl(char *erts, char *child, char *readerwriter1, char *readerwrite
 
     FILE *p1 = popen("ps x | grep bin/beam", "r");
     fgets(path1, sizeof(path1)-1, p1);
-    printf("%s", path1);
+    //printf("%s", path1);
     //strtok( path1, " " );
     const char *ptr = strtok( path1, " " );
     strcpy(erts, ptr);
+    printf("%s\n", erts);
 
-    FILE *p2 = popen("ps aux | grep erl_child", "r");
+    FILE *p2 = popen("ps x | grep erl_child", "r");
     fgets(path2, sizeof(path2)-1, p2);
-    printf("%s", path3);
     const char *ptr2 = strtok( path2, " " );
     strcpy(child, ptr2);
+    printf("%s\n", child);
 
-    FILE *p3 = popen("ps aux | grep readerwriterprg", "r");
+    FILE *p3 = popen("ps x | grep readerwriterprg", "r");
     fgets(path3, sizeof(path3)-1, p3);
-    printf("%s", path3);
+    //printf("%s", path3);
     const char *ptr3 = strtok( path3, " " );
     strcpy(readerwriter1, ptr3);
+    printf("%s\n", readerwriter1);
     fgets(path3, sizeof(path3)-1, p3);
-    printf("%s", path3);
+    //printf("%s", path3);
     const char *ptr4 = strtok( path3, " " );
     strcpy(readerwriter2, ptr4);
+    printf("%s\n", readerwriter2);
 
     pclose(p1);
     pclose(p2);
@@ -401,7 +404,7 @@ int main(int argc, char *argv[] )
 
                 char *idsP[] = {writerId, readerId, datagenId};
 
-                while(i < 120)
+                while(i < 100)
                 {
                     printf("Iterration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
@@ -481,7 +484,7 @@ int main(int argc, char *argv[] )
 
                 char *idsP2[] = {erts, child, readerwriter1, readerwriter2};
                 i = 0;
-                while(i < 120)
+                while(i < 100)
                 {
                     printf("Iterration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
