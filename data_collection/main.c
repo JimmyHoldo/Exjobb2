@@ -367,16 +367,16 @@ int main(int argc, char *argv[] )
     char cpustr[20], memstr[20], vszstr[20], drsstr[20], rssstr[20], used[20], free[20], available[20], cpuproc[20];
     if(atoi((argv)[1]) == 1)
     {
-        char *fileArr[] = {"10s", "5s","2s","1s","750ms","500ms","350ms","250ms","200ms","175ms","150ms"};
-        int timeSArr[] = {10, 5,2,1,0,0,0,0,0,0,0};
-        int timeMsArr[] = {0,0,0,0,750,500,350,250,200,175,150};
+        char *fileArr[] = {"10s", "5s","2s","1s","750ms","500ms","350ms","250ms","200ms","175ms","150ms","125ms","100ms"};
+        int timeSArr[] = {10, 5,2,1,0,0,0,0,0,0,0,0,0};
+        int timeMsArr[] = {0,0,0,0,750,500,350,250,200,175,150,125,100};
 
-        int timeErlMsArr[] = {10000,5000,2000,1000,750,500,350,250,200,175,150};
+        int timeErlMsArr[] = {10000,5000,2000,1000,750,500,350,250,200,175,150,125,100};
 
         for(int x=0; x<10; x++)
         {
             printf("Iterration x=%d\n", x );
-            for(int y=0; y<11; y++)
+            for(int y=0; y<13; y++)
             {
                 i=0;
                 sprintf(filename, "../files/%darm_cpp_%s.txt", x, fileArr[y]);
