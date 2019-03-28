@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
                                                      NULL,
                                                      &error);
         /* use the connection */
-        GInputStream * istream = g_io_stream_get_input_stream (G_IO_STREAM (connection));
+        //GInputStream * istream = g_io_stream_get_input_stream (G_IO_STREAM (connection));
         GOutputStream * ostream = g_io_stream_get_output_stream (G_IO_STREAM (connection));
         g_output_stream_write  (ostream,
                                 str, /* your message goes here */
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         {
             g_error (error->message);
         }
-
+        g_io_stream_close((GIOStream*)connection, NULL, NULL);
         nanosleep(&ts, NULL);
     }
     return 0;

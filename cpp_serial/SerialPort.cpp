@@ -116,13 +116,14 @@ int SerialPort::read_from_zigbee()
 {
     struct timespec ts;
     ts.tv_sec  = 0;
-    ts.tv_nsec = 100000000;
+    ts.tv_nsec = 95*1000*1000;
 
     int n1 = 0;
     char indata[11];
     while(n1 < 1 || (n1 != 10)){
         setBlocking(1);
         int n = read(serial_fd, indata, 10-n1);
+        //std::cout << n << std::endl;
         setBlocking(0);
         if(n == 10){
             strncpy(data, indata, 10);
@@ -131,7 +132,7 @@ int SerialPort::read_from_zigbee()
             append(n1, n, indata);
             n1 = n1+n;
         }
-        if(n1 < 0 || (n1 != 10)) {
+        if(n1 < 1 || (n1 != 10)) {
             nanosleep(&ts, NULL);
         }
     }

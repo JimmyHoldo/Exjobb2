@@ -56,6 +56,7 @@ int main(int argc, char const *argv[])
     FILE *p1 = NULL;
     char *datagenId = NULL;
     int i = 0;
+    int index[] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13};
     int timeSArr[] = {10, 5,2,1,0,0,0,0,0,0,0,0,0};
     int timeMsArr[] = {0,0,0,0,750,500,350,250,200,175,150,125,100};
     while(1)
@@ -76,10 +77,11 @@ int main(int argc, char const *argv[])
         if(p1 != NULL){
             pclose(p1);
         }
-        if(i == 13){
+        if(i == 26){
             break;
         }
-        startNewDatagen(p1, timeSArr[i], timeMsArr[i]);
+	
+        startNewDatagen(p1, timeSArr[index[i]], timeMsArr[index[i]]);
 
         send(new_socket , hello , strlen(hello) , 0 );
         printf("Hello message sent\n");

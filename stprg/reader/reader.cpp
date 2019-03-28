@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
    while(port.getPort() == -1){
 
-       port.open_port_serial("/dev/ttyUSB0");
+       port.open_port_serial("/dev/ttyUSB1");
 
        if (port.getPort() == -1)
                printf("Error opening serial port /dev/ttyUSB2 \n");
@@ -42,16 +42,16 @@ int main(int argc, char *argv[])
             std::cout << dataStr << std::endl;
             char filename[50];
             sprintf(filename, "../../files/test/arm_%s.txt", argv[1]);
-            FILE *f = fopen(filename, "a");
-            if (f == NULL)
-            {
-                printf("Error opening file!\n");
-                exit(1);
-            }
-
-
-            fprintf(f, "%s\n", dataStr);
-            fclose(f);
+            // FILE *f = fopen(filename, "a");
+            // if (f == NULL)
+            // {
+            //     printf("Error opening file!\n");
+            //     exit(1);
+            // }
+            //
+            //
+            // fprintf(f, "%s\n", dataStr);
+            //fclose(f);
         }
     }
 

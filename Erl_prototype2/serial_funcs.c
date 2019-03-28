@@ -94,17 +94,18 @@ void set_blocking (int fd, int should_block)
                 printf("error %d setting term attributes\n", errno);
 }
 
-int read_from_zigbee(int serial_fd, char *content){
+int read_from_zigbee(int serial_fd, char *content)
+{
     struct timespec ts;
     ts.tv_sec  = 0;
-    ts.tv_nsec = 100000000;
+    ts.tv_nsec = 95*1000*1000;
 
     int n1 = 0;
     char indata[11];
     while(n1 < 1 || (n1 != 10)){
-        set_blocking(serial_fd, 1);
+        //set_blocking(serial_fd, 1);
         int n = read(serial_fd, indata, 10-n1);
-        set_blocking(serial_fd, 0);
+        //set_blocking(serial_fd, 0);
         if(n == 10){
             strncpy(content, indata, 10);
             return n;
@@ -112,7 +113,7 @@ int read_from_zigbee(int serial_fd, char *content){
             append(n1, n, content, indata);
             n1 = n1+n;
         }
-        if(n1 < 0 || (n1 != 10)) {
+        if(n1 < 1 || (n1 != 10)) {
             nanosleep(&ts, NULL);
         }
     }
