@@ -29,11 +29,11 @@ int main() {
       char content[11];
       res = read_from_zigbee(arg, content);
       //buf[0] = res;
-      for (int i = 0; i < strlen(content); i++){
+      for (int i = 0; i < 10; i++){
         buf[i] = (byte)(content)[i];
       }
       //write_cmd(buf, 1);
-      write_cmd(buf, strlen(content));
+      write_cmd(buf, 10);
     }else if (fn == 4) {
       char *ps = buf;
       char sendStr[11];
