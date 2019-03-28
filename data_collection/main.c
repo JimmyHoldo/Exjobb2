@@ -376,7 +376,7 @@ int main(int argc, char *argv[] )
 
         int timeErlMsArr[] = {10000,5000,2000,1000,750,500,350,250,200,175,150,125,100};
 
-        for(int x=0; x<3; x++)
+        for(int x=0; x<10; x++)
         {
             printf("Iterration x=%d\n", x );
             for(int y=0; y<13; y++)
@@ -407,7 +407,7 @@ int main(int argc, char *argv[] )
 
                 char *idsP[] = {writerId, readerId, datagenId};
 
-                while(i < 10)
+                while(i < 120)
                 {
                     printf("cppIterration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
@@ -445,7 +445,8 @@ int main(int argc, char *argv[] )
                 pclose(p2);
                 pclose(p3);
 
-
+                FILE *pp = popen("./../clientserver/client", "r");
+                pclose(pp);
 
 
                 sprintf(filename, "../files/%darm_erl_%s.txt", x, fileArr[y]);
@@ -481,7 +482,7 @@ int main(int argc, char *argv[] )
 
                 char *idsP2[] = {erts, child, readerwriter1, readerwriter2};
                 i = 0;
-                while(i < 10)
+                while(i < 120)
                 {
                     printf("erllIterration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
