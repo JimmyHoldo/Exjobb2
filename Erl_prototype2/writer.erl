@@ -3,7 +3,9 @@
 -export([start/2]).
 
 start(Arg, ExtPrg) ->
-  io:format("supervisor started writer! Arg=~s~n", [Arg]),
+  erlang:garbage_collect(self()),
+  io:format("supervisor started writer! Arg=~s ~p~n",
+            [Arg, erlang:process_info(self(),memory)]),
   Pid = spawn_link(fun() -> init(Arg, ExtPrg) end),
   register(writerloop, Pid),
   {ok, Pid}.
@@ -11,8 +13,11 @@ start(Arg, ExtPrg) ->
 init(Arg, ExtPrg) ->
 	PortWriter = open_port({spawn_executable, ExtPrg}, [{packet, 2}]),
 	Serial_fd = serialport:open_port_serial(PortWriter, Arg),
-	serialport:initport(PortWriter, Serial_fd),
-	loop(PortWriter, Serial_fd).
+    case Serial_fd of
+        255 -> exit(normal);
+        _   -> serialport:initport(PortWriter, Serial_fd),
+    	       loop(PortWriter, Serial_fd)
+	end.
 
 loop(PortWriter, Serial_fd) ->
   receive
