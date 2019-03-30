@@ -53,13 +53,15 @@ int main()
                                                           NULL,
                                                           &error);
              /* use the connection */
-             GInputStream * istream = g_io_stream_get_input_stream (G_IO_STREAM (connection));
+             //GInputStream * istream = g_io_stream_get_input_stream (G_IO_STREAM (connection));
              GOutputStream * ostream = g_io_stream_get_output_stream (G_IO_STREAM (connection));
              g_output_stream_write  (ostream,
                                      str, /* your message goes here */
                                      strlen(str), /* length of your message */
                                      NULL,
                                      &error);
+
+             g_io_stream_close((GIOStream*)connection, NULL, NULL);
              /* don't forget to check for errors */
              if (error != NULL)
              {

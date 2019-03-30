@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
             port.getData(dataStr);
 
             std::cout << dataStr << std::endl;
-            char filename[50];
-            sprintf(filename, "../../files/test/arm_%s.txt", argv[1]);
+            //char filename[50];
+            //sprintf(filename, "../../files/test/arm_%s.txt", argv[1]);
             // FILE *f = fopen(filename, "a");
             // if (f == NULL)
             // {

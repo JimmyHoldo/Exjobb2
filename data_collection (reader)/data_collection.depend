@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1550701880 source:/home/jimmy/Desktop/cpp_prototype2/data_collection/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1550950896 source:/home/jimmy/Desktop/Exjobb/data_collection/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+
+1553387661 source:/home/jimmy/Desktop/Exjobb2/data_collection/main.c
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<unistd.h>
+	<stdio.h>
+
