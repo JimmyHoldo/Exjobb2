@@ -3,8 +3,8 @@
 -export([start/2]).
 
 start(Arg, ExtPrg) ->
-    erlang:garbage_collect(self()),
-    io:format("supervisor started reader! ~p~n", [erlang:process_info(self(),memory)]),
+    %erlang:garbage_collect(self()),
+    %io:format("supervisor started reader! ~p~n", [erlang:process_info(self(),memory)]),
     Pid = spawn_link(fun() -> init(Arg, ExtPrg) end),
     {ok, Pid}.
 

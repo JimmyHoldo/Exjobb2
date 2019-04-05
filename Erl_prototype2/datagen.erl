@@ -3,8 +3,8 @@
 -export([start/1]).
 
 start([Time]) ->
-  erlang:garbage_collect(self()),
-  io:format("supervisor started datagen! ~p~n", [erlang:process_info(self(),memory)]),
+  %erlang:garbage_collect(self()),
+  %io:format("supervisor started datagen! ~p~n", [erlang:process_info(self(),memory)]),
   Pid = spawn_link(fun() -> loop(0, Time) end),
   {ok, Pid}.
 

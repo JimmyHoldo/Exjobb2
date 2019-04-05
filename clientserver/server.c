@@ -78,9 +78,9 @@ int main(int argc, char const *argv[])
             pclose(p1);
         }
         if(i == 26){
-            break;
+            i=0;
         }
-	
+
         startNewDatagen(p1, timeSArr[index[i]], timeMsArr[index[i]]);
 
         send(new_socket , hello , strlen(hello) , 0 );

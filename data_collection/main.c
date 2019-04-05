@@ -378,7 +378,7 @@ int main(int argc, char *argv[] )
 
         for(int x=0; x<10; x++)
         {
-            printf("Iterration x=%d\n", x );
+            printf("Iteration x=%d\n", x );
             for(int y=0; y<13; y++)
             {
                 FILE *pp = popen("./../clientserver/client", "r");
@@ -409,7 +409,7 @@ int main(int argc, char *argv[] )
 
                 while(i < 120)
                 {
-                    printf("cppIterration %d\n", i );
+                    printf("cppIteration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
                     double cpuvalue = 0, memvalue = 0;
                     for(int j=0; j<3; j++){
@@ -484,7 +484,7 @@ int main(int argc, char *argv[] )
                 i = 0;
                 while(i < 120)
                 {
-                    printf("erllIterration %d\n", i );
+                    printf("erllIteration %d\n", i );
                     int drsint=0, rssint=0, vszint = 0;
                     double cpuvalue = 0, memvalue = 0;
                     for(int j=0; j<4; j++){
@@ -536,7 +536,7 @@ int main(int argc, char *argv[] )
         }
         while(i < 120)
         {
-            printf("Iterration: %d\n", i);
+            printf("Iteration: %d\n", i);
             runfree(used, free, available);
             char s[10] = "     ";
             fprintf(f, "%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t%s\t\n", s, s, s, s, s, s, used, free, available);
